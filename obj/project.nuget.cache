@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "dgSpecHash": "vZ3QfbKrkjQ=",
+  "success": false,
+  "projectFilePath": "D:\\ProjetosC#\\CentralBemEstarAssemblyIOS\\CentralBemEstarAssemblyIOS\\CentralBemEstarAssemblyIOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\8.0.11\\microsoft.aspnetcore.components.webassembly.8.0.11.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.devserver\\8.0.11\\microsoft.aspnetcore.components.webassembly.devserver.8.0.11.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.2\\microsoft.entityframeworkcore.9.0.2.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.net.illink.analyzers\\7.0.100-1.23211.1\\microsoft.net.illink.analyzers.7.0.100-1.23211.1.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.net.illink.tasks\\7.0.100-1.23211.1\\microsoft.net.illink.tasks.7.0.100-1.23211.1.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\9.0.0\\microsoft.net.sdk.webassembly.pack.9.0.0.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.20\\microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.20\\microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.20\\microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\carlo\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\7.0.20\\microsoft.netcore.app.runtime.mono.browser-wasm.7.0.20.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "O pacote Microsoft.EntityFrameworkCore 9.0.2 não é compatível com net7.0 (.NETCoreApp,Version=v7.0). O pacote Microsoft.EntityFrameworkCore 9.0.2 dá suporte a: net8.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "O pacote Microsoft.AspNetCore.Components.WebAssembly 8.0.11 não é compatível com net7.0 (.NETCoreApp,Version=v7.0). O pacote Microsoft.AspNetCore.Components.WebAssembly 8.0.11 dá suporte a: net8.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Microsoft.AspNetCore.Components.WebAssembly",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "O pacote Microsoft.EntityFrameworkCore 9.0.2 não é compatível com net7.0 (.NETCoreApp,Version=v7.0) / browser-wasm. O pacote Microsoft.EntityFrameworkCore 9.0.2 dá suporte a: net8.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        "net7.0/browser-wasm"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "O pacote Microsoft.AspNetCore.Components.WebAssembly 8.0.11 não é compatível com net7.0 (.NETCoreApp,Version=v7.0) / browser-wasm. O pacote Microsoft.AspNetCore.Components.WebAssembly 8.0.11 dá suporte a: net8.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Microsoft.AspNetCore.Components.WebAssembly",
+      "targetGraphs": [
+        "net7.0/browser-wasm"
+      ]
+    }
+  ]
+}

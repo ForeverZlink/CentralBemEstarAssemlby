@@ -1,0 +1,46 @@
+﻿@page "/counter"
+@using CentralBemEstarAssemblyIOS.Models
+@inject IJSRuntime JSRuntime
+
+
+<h1>Configurações</h1>
+
+
+
+
+<label>Link da planilha GOOGLE SHEETS</label>
+<input class="form-control" type="text" id="linkGoogleSheet" placeholder="Link google sheet"
+       @bind="configSite.LinkGoogleSheet" />
+
+<button class="btn btn-primary" @onclick="salvaLinkGogleSheet">Salvar Alterações</button>
+
+
+
+@code {
+
+    public Configs configSite = new Configs();
+
+    protected override async Task OnInitializedAsync()
+    {
+        DatabaseService _databaseService = new DatabaseService(JSRuntime);
+
+        await _databaseService.InitializeAsync(JSRuntime);
+        await _databaseService.InicializarBancoDeDados();
+        // Simulate asynchronous loading to demonstrate a loading indicator
+
+        configSite = await _databaseService.GetConfig();
+        if(configSite == null){
+            configSite = new Configs();
+            configSite.LinkGoogleSheet = string.Empty;
+        }
+    }
+    public async void salvaLinkGogleSheet(){
+        DatabaseService _databaseService = new DatabaseService(JSRuntime);
+        await _databaseService.InitializeAsync(JSRuntime);
+        await _databaseService.InicializarBancoDeDados();
+        await _databaseService.SalvarPlanilhaGoogleSheet(configSite.LinkGoogleSheet);
+    }
+
+
+}
+<script src="indexedDBHelper.js"></script>

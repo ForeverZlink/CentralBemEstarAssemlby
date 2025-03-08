@@ -1,0 +1,236 @@
+﻿@page "/"
+@inject DatabaseService DatabaseService
+@inject IJSRuntime JSRuntime
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Insulina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        input, button {
+            margin: 5px;
+            padding: 8px;
+            width: 100%;
+        }
+
+        #resultado {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto; /* Habilita rolagem horizontal */
+        }
+        /* Aumenta o padding do cabeçalho */
+        .table-custom th {
+            padding: 1.5rem; /* Ajuste o valor conforme necessário */
+            text-align: center; /* Opcional: centraliza o texto */
+            font-size: 1.2rem; /* Opcional: aumenta o tamanho da fonte */
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Button trigger modal -->
+    <button type="button" id="mostrarIsulinaNaTela" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" hidden>
+        Botao escondido
+    </button>
+
+
+    <div class="container">
+        <h2>Calculadora de Insulina</h2>
+        <div class="row g-3">
+
+            <label>Glicemia Atual:</label>
+            <input class="form-control" type="number" id="glicemia" placeholder="Digite a glicemia">
+
+            <label>Carboidratos Ingeridos:</label>
+            <input class="form-control" type="number" id="carbo" placeholder="Digite os carboidratos">
+            <label for="country" class="form-label">Refeição</label>
+            <select class="form-select" id="refeicao">
+                aria-label="Refeição">
+                <option value="CAFÉ">Café</option>
+                <option value="ALMOÇO">Almoço</option>
+                <option value="LANCHE">Lanche</option>
+                <option value="JANTAR">Jantar</option>
+                <option value="CEIA">Ceia</option>
+            </select>
+
+
+
+        </div>
+
+        <button class="btn btn-primary" onclick="calcularInsulina()">Calcular Insulina</button>
+
+
+        <button class="btn btn-primary" onclick="mostrarBaseDados()">Base de Dados Médico</button>
+    </div>
+
+    <div class="container hidden" id="baseDadosContainer">
+        <h2>Base de Dados Médico</h2>
+        <p>Última atualização baixada do google sheet: <span id="ultimaModificacao"></span></p>
+        <div class="table-responsive">
+            <table class="table table-custom" border="1" width="100%">
+                <tr>
+                    <th scope="col">Refeição</th>
+                    <th scope="col">Insulina</th>
+                    <th scope="col">CHO</th>
+                    <th scope="col">Meta</th>
+                    <th scope="col">FS</th>
+                </tr>
+                <tbody id="baseDados"></tbody>
+            </table>
+        </div>
+        <button class="btn btn-secondary" onclick="GetAtualizacaoDeDadosGoogleSheet()">Sicronizar com google sheet</button>
+        <button class="btn btn-primary" onclick="salvarBaseDados()">Salvar Alterações</button>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <div class="text-center">
+                        <p id="resultado" class="fs-3">Conteúdo do Modal</p>
+
+                    </div>
+                </div>
+                <div class="modal-footer mt-auto">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        let baseDados ={}
+        //GetBaseDeDadosBanco().then(dados => {
+            //baseDados = dados // Exibe o valor da Promise resolvida
+        //}).catch(erro => {
+            //console.error("Erro ao obter dados:", erro);
+        //});
+
+
+
+        function calcularInsulina() {
+            let glicemia = parseFloat(document.getElementById('glicemia').value);
+            let carbo = parseFloat(document.getElementById('carbo').value);
+            let refeicao = document.getElementById('refeicao').value;
+
+            if (isNaN(glicemia) || isNaN(carbo)) {
+                alert("Por favor, preencha todos os campos corretamente.");
+                return;
+            }
+
+            let dados = baseDados[refeicao];
+            let insulina = ((glicemia - dados.meta) / dados.fs) + (carbo / dados.cho) * dados.insulina;
+            document.getElementById('resultado').innerText = "Insulina a aplicar: " + insulina.toFixed(2);
+
+            var hiddenButton = document.getElementById("mostrarIsulinaNaTela");
+            // Remove a classe d-none para mostrar o botão
+
+            // Simula um clique no botão oculto
+            hiddenButton.click();
+        }
+
+        async function mostrarBaseDados() {
+            let container = document.getElementById('baseDadosContainer');
+            container.classList.toggle('hidden');
+            let tbody = document.getElementById('baseDados');
+            tbody.innerHTML = "";
+
+            for (let refeicao in baseDados) {
+                let dados = baseDados[refeicao];
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${refeicao}</td>
+                        <td><input type="number" class="form-control" value="${dados.insulina}" onchange="atualizarBase('${refeicao}', 'insulina', this.value)"></td>
+                        <td><input type="number" class="form-control"  value="${dados.cho}" onchange="atualizarBase('${refeicao}', 'cho', this.value)"></td>
+                        <td><input type="number" class="form-control" value="${dados.meta}" onchange="atualizarBase('${refeicao}', 'meta', this.value)"></td>
+                        <td><input type="number" class="form-control" value="${dados.fs}" onchange="atualizarBase('${refeicao}', 'fs', this.value)"></td>
+                    </tr>`;
+            }
+            GetDataDaUltimaAtualizacaoPorGoogleSheet().then(dados=>{
+                console.log(dados)
+                document.getElementById("ultimaModificacao").innerText = dados;
+
+            }).catch(erro => {
+                console.error("Erro ao obter dados:", erro);
+            });
+        }
+
+        function atualizarBase(refeicao, campo, valor) {
+            baseDados[refeicao][campo] = parseFloat(valor);
+        }
+
+        async function salvarBaseDados() {
+            //localStorage.setItem('baseDados', JSON.stringify(baseDados));
+            await AtualizarDadosViaJson(JSON.stringify(baseDados))
+            alert("Base de dados salva com sucesso!");
+            location.reload();
+        }
+
+        window.onload = function() {
+            GetBaseDeDadosBanco().then(dados => {
+                baseDados = dados // Exibe o valor da Promise resolvida
+            }).catch(erro => {
+                console.error("Erro ao obter dados:", erro);
+            });
+
+        };
+
+        async function GetBaseDeDadosBanco() {
+            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "GetBaseDeDadosBanco");
+            return JSON.parse(resposta);
+        }
+        async function AtualizarDadosViaJson(json) {
+            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "AtualizarDadosViaJson",json);
+            return resposta;
+        }
+        async function GetDataDaUltimaAtualizacaoPorGoogleSheet() {
+            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "UltimoDowloadDeInformacoaDoGoogleSheet");
+            console.log(resposta);
+            return resposta;
+        }
+        async function GetAtualizacaoDeDadosGoogleSheet() {
+            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "BaixarDadosDaPlanilhaGoogleSheet");
+            if(resposta){
+                alert("Sincronizado com sucesso!")
+            }else{
+                alert("Houve algum erro na comunicação. Verifique sua internet!");
+            }
+            location.reload();
+
+        }
+
+
+    </script>
+
+</body>
+</html>
+
