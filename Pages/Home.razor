@@ -261,6 +261,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        DatabaseService _databaseService = new DatabaseService(JSRuntime);
+        await _databaseService.InitializeAsync(JSRuntime);
+        await _databaseService.InicializarBancoDeDados();
         String Result = await GetBaseDeDadosBanco();
     }
 
