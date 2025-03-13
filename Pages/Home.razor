@@ -139,11 +139,7 @@
     <script>
 
         let baseDados ={}
-        GetBaseDeDadosBanco("t").then(dados => {
-        baseDados = dados // Exibe o valor da Promise resolvida
-        }).catch(erro => {
-        console.error("Erro ao obter dados:", erro);
-        });
+
         let ultimaAtualizacaoBaseDeDados;
 
 
@@ -206,14 +202,7 @@
         location.reload();
         }
 
-        window.onload = function() {
-        GetBaseDeDadosBanco("t").then(dados => {
-        baseDados = dados // Exibe o valor da Promise resolvida
-        }).catch(erro => {
-        console.error("Erro ao obter dados:", erro);
-        });
 
-        };
         async function GetBaseDeDadosBancoInfo() {
 
         return JSON.stringify(baseDados)
