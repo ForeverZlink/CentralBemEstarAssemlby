@@ -207,7 +207,7 @@
 
         return JSON.stringify(baseDados)
         }
-        async function GetBaseDeDadosBanco(json,ultimaAtualizacao) {
+        async function GetBaseDeDadosBancoMock(json,ultimaAtualizacao) {
             console.log(json)
             baseDados ={}
             baseDados = JSON.parse(json)
@@ -276,7 +276,7 @@
             };
 
         var JsonTratado = JsonSerializer.Serialize(listaComDadosPrincipal, options).ToString();
-        var JsonTratadoPorJavascript = await JSRuntime.InvokeAsync<string>("GetBaseDeDadosBanco", JsonTratado, ultimaAtualizacaoBase);
+        var JsonTratadoPorJavascript = await JSRuntime.InvokeAsync<string>("GetBaseDeDadosBancoMock", JsonTratado, ultimaAtualizacaoBase);
         return JsonTratadoPorJavascript;
 
     }
