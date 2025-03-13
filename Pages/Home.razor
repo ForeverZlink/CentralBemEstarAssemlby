@@ -1,6 +1,12 @@
 ﻿@page "/"
 @inject DatabaseService DatabaseService
 @inject IJSRuntime JSRuntime
+@using System.Text.Json
+@using CentralBemEstarAssemblyIOS.Models
+
+@inject IJSRuntime JSRuntime
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,42 +15,47 @@
     <title>Calculadora de Insulina</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+        font-family: Arial, sans-serif;
+        text-align: center;
         }
 
         .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
         }
 
-        input, button {
-            margin: 5px;
-            padding: 8px;
-            width: 100%;
+        input {
+        margin: 5px;
+        padding: 8px;
+        width: 100%;
         }
 
+        .button_bonito{
+        margin: 5px;
+        padding: 8px;
+        width: 100%;
+        }
         #resultado {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 10px;
         }
 
         .hidden {
-            display: none;
+        display: none;
         }
 
         .table-container {
-            max-width: 100%;
-            overflow-x: auto; /* Habilita rolagem horizontal */
+        max-width: 100%;
+        overflow-x: auto; /* Habilita rolagem horizontal */
         }
         /* Aumenta o padding do cabeçalho */
         .table-custom th {
-            padding: 1.5rem; /* Ajuste o valor conforme necessário */
-            text-align: center; /* Opcional: centraliza o texto */
-            font-size: 1.2rem; /* Opcional: aumenta o tamanho da fonte */
+        padding: 1.5rem; /* Ajuste o valor conforme necessário */
+        text-align: center; /* Opcional: centraliza o texto */
+        font-size: 1.2rem; /* Opcional: aumenta o tamanho da fonte */
         }
 
 
@@ -81,10 +92,10 @@
 
         </div>
 
-        <button class="btn btn-primary" onclick="calcularInsulina()">Calcular Insulina</button>
+        <button class="btn btn-primary button_bonito" onclick="calcularInsulina()">Calcular Insulina</button>
 
 
-        <button class="btn btn-primary" onclick="mostrarBaseDados()">Base de Dados Médico</button>
+        <button class="btn btn-primary button_bonito" onclick="mostrarBaseDados()">Base de Dados Médico</button>
     </div>
 
     <div class="container hidden" id="baseDadosContainer">
@@ -102,8 +113,8 @@
                 <tbody id="baseDados"></tbody>
             </table>
         </div>
-        <button class="btn btn-secondary" onclick="GetAtualizacaoDeDadosGoogleSheet()">Sicronizar com google sheet</button>
-        <button class="btn btn-primary" onclick="salvarBaseDados()">Salvar Alterações</button>
+        <button class="btn btn-secondary button_bonito" @onclick="BaixarDadosDoGoogleSheetEInserirNoBanco">Sicronizar com google sheet</button>
+        <button class="btn btn-primary button_bonito" @onclick="SalvarBaseDeDados">Salvar Alterações</button>
 
     </div>
     <!-- Modal -->
@@ -112,7 +123,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close button_bonito" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center align-items-center" style="height: 100%;">
                     <div class="text-center">
@@ -121,116 +132,251 @@
                     </div>
                 </div>
                 <div class="modal-footer mt-auto">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger button_bonito" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
+
     <script>
 
         let baseDados ={}
-        //GetBaseDeDadosBanco().then(dados => {
-            //baseDados = dados // Exibe o valor da Promise resolvida
-        //}).catch(erro => {
-            //console.error("Erro ao obter dados:", erro);
-        //});
-
+        GetBaseDeDadosBanco("t").then(dados => {
+        baseDados = dados // Exibe o valor da Promise resolvida
+        }).catch(erro => {
+        console.error("Erro ao obter dados:", erro);
+        });
+        let ultimaAtualizacaoBaseDeDados;
 
 
         function calcularInsulina() {
-            let glicemia = parseFloat(document.getElementById('glicemia').value);
-            let carbo = parseFloat(document.getElementById('carbo').value);
-            let refeicao = document.getElementById('refeicao').value;
+        let glicemia = parseFloat(document.getElementById('glicemia').value);
+        let carbo = parseFloat(document.getElementById('carbo').value);
+        let refeicao = document.getElementById('refeicao').value;
 
-            if (isNaN(glicemia) || isNaN(carbo)) {
-                alert("Por favor, preencha todos os campos corretamente.");
-                return;
-            }
+        if (isNaN(glicemia) || isNaN(carbo)) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+        }
 
-            let dados = baseDados[refeicao];
-            let insulina = ((glicemia - dados.meta) / dados.fs) + (carbo / dados.cho) * dados.insulina;
-            document.getElementById('resultado').innerText = "Insulina a aplicar: " + insulina.toFixed(2);
+        let dados = baseDados[refeicao];
+        let insulina = ((glicemia - dados.meta) / dados.fs) + (carbo / dados.cho) * dados.insulina;
+        document.getElementById('resultado').innerText = "Insulina a aplicar: " + insulina.toFixed(2);
 
-            var hiddenButton = document.getElementById("mostrarIsulinaNaTela");
-            // Remove a classe d-none para mostrar o botão
+        var hiddenButton = document.getElementById("mostrarIsulinaNaTela");
+        // Remove a classe d-none para mostrar o botão
 
-            // Simula um clique no botão oculto
-            hiddenButton.click();
+        // Simula um clique no botão oculto
+        hiddenButton.click();
         }
 
         async function mostrarBaseDados() {
-            let container = document.getElementById('baseDadosContainer');
-            container.classList.toggle('hidden');
-            let tbody = document.getElementById('baseDados');
-            tbody.innerHTML = "";
+        let container = document.getElementById('baseDadosContainer');
+        container.classList.toggle('hidden');
+        let tbody = document.getElementById('baseDados');
+        tbody.innerHTML = "";
 
-            for (let refeicao in baseDados) {
-                let dados = baseDados[refeicao];
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${refeicao}</td>
-                        <td><input type="number" class="form-control" value="${dados.insulina}" onchange="atualizarBase('${refeicao}', 'insulina', this.value)"></td>
-                        <td><input type="number" class="form-control"  value="${dados.cho}" onchange="atualizarBase('${refeicao}', 'cho', this.value)"></td>
-                        <td><input type="number" class="form-control" value="${dados.meta}" onchange="atualizarBase('${refeicao}', 'meta', this.value)"></td>
-                        <td><input type="number" class="form-control" value="${dados.fs}" onchange="atualizarBase('${refeicao}', 'fs', this.value)"></td>
-                    </tr>`;
-            }
-            GetDataDaUltimaAtualizacaoPorGoogleSheet().then(dados=>{
-                console.log(dados)
-                document.getElementById("ultimaModificacao").innerText = dados;
+        for (let refeicao in baseDados) {
+        let dados = baseDados[refeicao];
+        tbody.innerHTML += `
+        <tr>
+        <td>${refeicao}</td>
+        <td><input type="number" class="form-control" value="${dados.insulina}" onchange="atualizarBase('${refeicao}', 'insulina', this.value)"></td>
+        <td><input type="number" class="form-control"  value="${dados.cho}" onchange="atualizarBase('${refeicao}', 'cho', this.value)"></td>
+        <td><input type="number" class="form-control" value="${dados.meta}" onchange="atualizarBase('${refeicao}', 'meta', this.value)"></td>
+        <td><input type="number" class="form-control" value="${dados.fs}" onchange="atualizarBase('${refeicao}', 'fs', this.value)"></td>
+        </tr>`;
+        }
 
-            }).catch(erro => {
-                console.error("Erro ao obter dados:", erro);
-            });
+        document.getElementById("ultimaModificacao").innerText = ultimaAtualizacaoBaseDeDados;
+
         }
 
         function atualizarBase(refeicao, campo, valor) {
-            baseDados[refeicao][campo] = parseFloat(valor);
+        baseDados[refeicao][campo] = parseFloat(valor);
         }
 
         async function salvarBaseDados() {
-            //localStorage.setItem('baseDados', JSON.stringify(baseDados));
-            await AtualizarDadosViaJson(JSON.stringify(baseDados))
-            alert("Base de dados salva com sucesso!");
-            location.reload();
+        //localStorage.setItem('baseDados', JSON.stringify(baseDados));
+        await AtualizarDadosViaJson(JSON.stringify(baseDados))
+        alert("Base de dados salva com sucesso!");
+        location.reload();
+        }
+        async function salvarBaseDadosAvisoDeSucesso() {
+        //localStorage.setItem('baseDados', JSON.stringify(baseDados));
+        alert("Base de dados salva com sucesso!");
+        location.reload();
         }
 
         window.onload = function() {
-            GetBaseDeDadosBanco().then(dados => {
-                baseDados = dados // Exibe o valor da Promise resolvida
-            }).catch(erro => {
-                console.error("Erro ao obter dados:", erro);
-            });
+        GetBaseDeDadosBanco("t").then(dados => {
+        baseDados = dados // Exibe o valor da Promise resolvida
+        }).catch(erro => {
+        console.error("Erro ao obter dados:", erro);
+        });
 
         };
+        async function GetBaseDeDadosBancoInfo() {
 
-        async function GetBaseDeDadosBanco() {
-            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "GetBaseDeDadosBanco");
-            return JSON.parse(resposta);
+        return JSON.stringify(baseDados)
+        }
+        async function GetBaseDeDadosBanco(json,ultimaAtualizacao) {
+            console.log(json)
+            baseDados ={}
+            baseDados = JSON.parse(json)
+            ultimaAtualizacaoBaseDeDados = ultimaAtualizacao
+
         }
         async function AtualizarDadosViaJson(json) {
-            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "AtualizarDadosViaJson",json);
-            return resposta;
+        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "AtualizarDadosViaJson",json);
+        return resposta;
         }
         async function GetDataDaUltimaAtualizacaoPorGoogleSheet() {
-            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "UltimoDowloadDeInformacoaDoGoogleSheet");
-            console.log(resposta);
-            return resposta;
+        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "UltimoDowloadDeInformacoaDoGoogleSheet");
+
+        return resposta;
         }
         async function GetAtualizacaoDeDadosGoogleSheet() {
-            var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "BaixarDadosDaPlanilhaGoogleSheet");
-            if(resposta){
-                alert("Sincronizado com sucesso!")
-            }else{
-                alert("Houve algum erro na comunicação. Verifique sua internet!");
-            }
-            location.reload();
+        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "BaixarDadosDaPlanilhaGoogleSheet");
+        if(resposta){
+        alert("Sincronizado com sucesso!")
+        }else{
+        alert("Houve algum erro na comunicação. Verifique sua internet!");
+        }
+        location.reload();
+
+        }
+        async function GetAtualizacaoDeDadosGoogleSheetAviso() {
+
+        alert("Sincronizado com sucesso!")
+
+        location.reload();
 
         }
 
 
     </script>
-
+    <script src="indexedDBHelper.js"></script>
 </body>
 </html>
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        String Result = await GetBaseDeDadosBanco();
+    }
+
+    public async Task<String> GetBaseDeDadosBanco()
+    {
+        DatabaseService _databaseService = new DatabaseService(JSRuntime);
+        await _databaseService.InitializeAsync(JSRuntime);
+        await _databaseService.InicializarBancoDeDados();
+        var baseDeDados = await _databaseService.ListarBaseDeDadosAsync();
+        var ultimaAtualizacaoBase = await _databaseService.GetUltimaAtualizacaoDoGoogleSheet();
+
+        Dictionary<string, Dictionary<string, double>> listaComDadosPrincipal = new Dictionary<string, Dictionary<string, double>>();
+
+        foreach (var linha in baseDeDados)
+        {
+            var keyValuePairs = new Dictionary<string, double>
+                        {
+                        {"insulina", linha.Insulina},
+                        {"cho", linha.CHO},
+                        {"meta", linha.Meta},
+                        {"fs", linha.FS}
+                        };
+            listaComDadosPrincipal[linha.Refeicao] = keyValuePairs;
+        }
+
+        var options = new JsonSerializerOptions
+            {
+                WriteIndented = true, // Formatar JSON de maneira legível
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Permitir caracteres especiais
+            };
+
+        var JsonTratado = JsonSerializer.Serialize(listaComDadosPrincipal, options).ToString();
+        var JsonTratadoPorJavascript = await JSRuntime.InvokeAsync<string>("GetBaseDeDadosBanco", JsonTratado, ultimaAtualizacaoBase);
+        return JsonTratadoPorJavascript;
+
+    }
+    public async Task<String> SalvarBaseDeDados(){
+        var BaseDeDadosAtualizarNoBanco = await JSRuntime.InvokeAsync<String>("GetBaseDeDadosBancoInfo");
+        if(BaseDeDadosAtualizarNoBanco != null){
+            Dictionary<string, Meal> meals = JsonSerializer.Deserialize<Dictionary<string, Meal>>(BaseDeDadosAtualizarNoBanco);
+
+            foreach (var mealInstance in meals)
+            {
+                String key = mealInstance.Key;
+                Meal meal = mealInstance.Value;
+                await JSRuntime.InvokeVoidAsync("indexedDBHelper.saveItem", "usuarios", key, meal);
+            }
+
+            await JSRuntime.InvokeVoidAsync("salvarBaseDadosAvisoDeSucesso"); 
+        }
+        return String.Empty;
+    }
+    public async Task<bool> BaixarDadosDoGoogleSheetEInserirNoBanco()
+    {
+        var configuracaoGoogleSheet = await JSRuntime.InvokeAsync<Configs>("indexedDBHelper.getItem", "configs", "UNICO");
+        try
+        {
+            var partes = configuracaoGoogleSheet.LinkGoogleSheet.Split('/');
+            var id = partes[5];
+            string urlTransformadaParaCSV = $"https://docs.google.com/spreadsheets/d/{id}/export?format=csv";
+            var httpClient = new HttpClient();
+            var resposta = await httpClient.GetStringAsync(urlTransformadaParaCSV);
+
+            var linhas = resposta.Split("\n");
+            var contador = 0;
+            List<BaseDeDadosMedicos> baseDeDadosParaAdicionarNoBanco = new List<BaseDeDadosMedicos>();
+
+            foreach (var linha in linhas)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+
+                var colunas = linha.Replace("\r", "").Split(",");
+                string refeicao = colunas[0];
+                double insulina = Convert.ToDouble(colunas[1].Replace(".", ","));
+                double cho = Convert.ToDouble(colunas[2].Replace(".", ","));
+                double meta = Convert.ToDouble(colunas[3].Replace(".", ","));
+                double fs = Convert.ToDouble(colunas[4].Replace(".", ","));
+
+                BaseDeDadosMedicos baseDeDadosMedicos = new BaseDeDadosMedicos
+                    {
+                        Refeicao = refeicao,
+                        Insulina = insulina,
+                        CHO = cho,
+                        Meta = meta,
+                        FS = fs,
+                        UltimaAtualizacaoServicoExterno = DateTime.Now
+                    };
+                baseDeDadosParaAdicionarNoBanco.Add(baseDeDadosMedicos);
+                await JSRuntime.InvokeVoidAsync("indexedDBHelper.saveItem", "usuarios", refeicao, baseDeDadosMedicos);
+                contador++;
+            }
+
+            var todosOsDados = await JSRuntime.InvokeAsync<List<BaseDeDadosMedicos>>("indexedDBHelper.getAllItems", "usuarios");
+            var itensParaRemover = todosOsDados
+                .Where(a1 => !baseDeDadosParaAdicionarNoBanco.Any(a2 => a1.Refeicao == a2.Refeicao))
+                .ToList();
+
+            foreach (var item in itensParaRemover)
+            {
+                await JSRuntime.InvokeVoidAsync("indexedDBHelper.deleteItem", "usuarios", item.Refeicao);
+            }
+            await JSRuntime.InvokeVoidAsync("GetAtualizacaoDeDadosGoogleSheetAviso");
+        
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+}
 

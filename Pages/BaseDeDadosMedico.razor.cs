@@ -4,11 +4,11 @@ using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 public static class BlazorInterop
 {
     public static IJSRuntime _jsRuntime; // Para armazenar a instância de IJSRuntime
-
 
     // Método para inicializar o BlazorInterop com IJSRuntime
     public static void Initialize(IJSRuntime jsRuntime)

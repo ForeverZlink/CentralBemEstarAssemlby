@@ -40,7 +40,7 @@ public class DatabaseService
         var configs = await GetConfig();
         if(configs == null)
         {
-            configs = new Configs() { LinkGoogleSheet = config,IdIdentificao=Guid.NewGuid().ToString() };
+            configs = new Configs() { LinkGoogleSheet = config,IdIdentificao="UNICO"};
         }
         else
         {
@@ -198,7 +198,7 @@ public class DatabaseService
     // Obter a última atualização
     public async Task<string> GetUltimaAtualizacaoDoGoogleSheet()
     {
-        var listaComLinhas = await _jsRuntime.InvokeAsync<List<BaseDeDadosMedicos>>("indexedDB.getAllItems", "usuarios");
+        var listaComLinhas = await _jsRuntime.InvokeAsync<List<BaseDeDadosMedicos>>("indexedDBHelper.getAllItems", "usuarios");
         var data = listaComLinhas.OrderByDescending(x => x.UltimaAtualizacaoServicoExterno)
                                  .FirstOrDefault();
 

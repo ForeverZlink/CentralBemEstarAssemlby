@@ -10,16 +10,27 @@
 
 <label>Link da planilha GOOGLE SHEETS</label>
 <input class="form-control" type="text" id="linkGoogleSheet" placeholder="Link google sheet"
-       @bind="configSite.LinkGoogleSheet" />
+@bind="configSite.LinkGoogleSheet" />
 
 <button class="btn btn-primary" @onclick="salvaLinkGogleSheet">Salvar Alterações</button>
 
+<script>
+    async function SalvoComSucesso() {
 
+    alert("Salvo com sucesso!")
+        location.reload();
+    }
+    async function HouveAlgumErro() {
+
+        alert("Houve algum erro ao salvar!")
+        location.reload();
+    }
+</script>
 
 @code {
 
     public Configs configSite = new Configs();
-
+    [Inject] IJSRuntime JS { get; set; }
     protected override async Task OnInitializedAsync()
     {
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
@@ -38,7 +49,12 @@
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
         await _databaseService.InitializeAsync(JSRuntime);
         await _databaseService.InicializarBancoDeDados();
-        await _databaseService.SalvarPlanilhaGoogleSheet(configSite.LinkGoogleSheet);
+        int result = await _databaseService.SalvarPlanilhaGoogleSheet(configSite.LinkGoogleSheet);
+        if(result ==1){
+            await JS.InvokeVoidAsync("SalvoComSucesso");
+        }else{
+            await JS.InvokeVoidAsync("HouveAlgumErro");
+        }
     }
 
 
