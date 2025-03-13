@@ -247,16 +247,7 @@
 </body>
 </html>
 @code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        DatabaseService _databaseService = new DatabaseService(JSRuntime);
-        await _databaseService.InitializeAsync(JSRuntime);
-        await _databaseService.InicializarBancoDeDados();
-        String Result = await GetBaseDeDadosBanco();
-    }
-
-    public async Task<String> GetBaseDeDadosBanco()
+     public async Task<String> GetBaseDeDadosBanco()
     {
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
         await _databaseService.InitializeAsync(JSRuntime);
@@ -289,6 +280,15 @@
         return JsonTratadoPorJavascript;
 
     }
+    protected override async Task OnInitializedAsync()
+    {
+        DatabaseService _databaseService = new DatabaseService(JSRuntime);
+        await _databaseService.InitializeAsync(JSRuntime);
+        await _databaseService.InicializarBancoDeDados();
+        String Result = await this.GetBaseDeDadosBanco();
+    }
+
+   
     public async Task<String> SalvarBaseDeDados(){
         var BaseDeDadosAtualizarNoBanco = await JSRuntime.InvokeAsync<String>("GetBaseDeDadosBancoInfo");
         if(BaseDeDadosAtualizarNoBanco != null){
