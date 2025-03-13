@@ -8,10 +8,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 
-// Adiciona o DatabaseService como serviço injetável
-
-builder.Services.AddSingleton<DatabaseService>();
-
+// Adiciona o DatabaseService como serviÃ§o injetÃ¡vel
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
