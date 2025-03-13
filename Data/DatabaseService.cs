@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using CentralBemEstarAssemblyIOS.Models;
 using Microsoft.JSInterop;
 
-
+namespace CentralBemEstarAssemblyIOS.Services
+{
 public class DatabaseService
 {
     private  IJSRuntime _jsRuntime;
@@ -217,4 +218,5 @@ public class DatabaseService
 
         return "Sem dados.";
     }
+}
 }
