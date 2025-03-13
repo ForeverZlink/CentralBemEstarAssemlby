@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CentralBemEstarAssemblyIOS",
   "resources": {
-    "hash": "sha256-o//uxxF9Qo+GQw0TZBMwFDMN0PwXyYguDVV4tqbVpsg=",
+    "hash": "sha256-Lvy+xHp1leP79PM3+HVR/L2IMu3zDAeB4LM5Kc6d1r4=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Authorization.qe23mgxr71.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.flveird317.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -201,8 +201,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "CentralBemEstarAssemblyIOS.e2di5uyp1o.wasm": "CentralBemEstarAssemblyIOS.wasm",
-      "CentralBemEstarAssemblyIOS.1ehi42mmpy.pdb": "CentralBemEstarAssemblyIOS.pdb"
+      "CentralBemEstarAssemblyIOS.tepw9ddy88.wasm": "CentralBemEstarAssemblyIOS.wasm",
+      "CentralBemEstarAssemblyIOS.rfp040t4ck.pdb": "CentralBemEstarAssemblyIOS.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.8bti36lthm.js": "sha256-HFADmT26AarHu4tMjFaTPxINmQjBJGtdPN+CKjtNMFE="
@@ -412,10 +412,10 @@
       "WindowsBase.tuf34ieu7y.wasm": "sha256-Bd+l972cOS1eVeLzrQNlgD6LPWV1QXBSzJhv8Tx1WGI=",
       "mscorlib.5q5u0swn6q.wasm": "sha256-g9cI1sECkF7bxMqOSB+W0a4utdDsqTrqZzyiAEeA65g=",
       "netstandard.w8gk1pigg1.wasm": "sha256-QFR5QNPfvyZTexW3IA/AFx6ZmIF/TecvOUsSK4gM4po=",
-      "CentralBemEstarAssemblyIOS.e2di5uyp1o.wasm": "sha256-WjDuCI0iIj61EsNAkDtYTDGKrfWjyHHbXzUJcujXcwQ="
+      "CentralBemEstarAssemblyIOS.tepw9ddy88.wasm": "sha256-pZXYbU4tfPs4xDLkJZQYKdARV9KVhTBXh3osS/LDn6c="
     },
     "pdb": {
-      "CentralBemEstarAssemblyIOS.1ehi42mmpy.pdb": "sha256-dyvxxXZ7YeX5Zyc37cYYqghx2pfq9y8sMTyOrTzA27A="
+      "CentralBemEstarAssemblyIOS.rfp040t4ck.pdb": "sha256-x9SwXTFz345m7ZASYGB2H9M+JbqIboE8HwqCv/66bWM="
     }
   },
   "cacheBootResources": true,

@@ -190,12 +190,7 @@
         baseDados[refeicao][campo] = parseFloat(valor);
         }
 
-        async function salvarBaseDados() {
-        //localStorage.setItem('baseDados', JSON.stringify(baseDados));
-        await AtualizarDadosViaJson(JSON.stringify(baseDados))
-        alert("Base de dados salva com sucesso!");
-        location.reload();
-        }
+
         async function salvarBaseDadosAvisoDeSucesso() {
         //localStorage.setItem('baseDados', JSON.stringify(baseDados));
         alert("Base de dados salva com sucesso!");
@@ -214,30 +209,11 @@
             ultimaAtualizacaoBaseDeDados = ultimaAtualizacao
 
         }
-        async function AtualizarDadosViaJson(json) {
-        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "AtualizarDadosViaJson",json);
-        return resposta;
-        }
-        async function GetDataDaUltimaAtualizacaoPorGoogleSheet() {
-        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "UltimoDowloadDeInformacoaDoGoogleSheet");
-
-        return resposta;
-        }
-        async function GetAtualizacaoDeDadosGoogleSheet() {
-        var resposta = await DotNet.invokeMethodAsync("CentralBemEstarAssemblyIOS", "BaixarDadosDaPlanilhaGoogleSheet");
-        if(resposta){
-        alert("Sincronizado com sucesso!")
-        }else{
-        alert("Houve algum erro na comunicação. Verifique sua internet!");
-        }
-        location.reload();
-
-        }
         async function GetAtualizacaoDeDadosGoogleSheetAviso() {
 
-        alert("Sincronizado com sucesso!")
+            alert("Sincronizado com sucesso!")
 
-        location.reload();
+            location.reload();
 
         }
 
@@ -285,7 +261,7 @@
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
         await _databaseService.InitializeAsync(JSRuntime);
         await _databaseService.InicializarBancoDeDados();
-        String Result = await this.GetBaseDeDadosBanco();
+
     }
 
    
