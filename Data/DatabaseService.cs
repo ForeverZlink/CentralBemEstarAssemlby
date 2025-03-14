@@ -91,8 +91,8 @@ public class DatabaseService
     // Inserir dados iniciais
     public async Task InserirDadosIniciais()
     {
-        var totalRegistros = await _jsRuntime.InvokeAsync<int>("indexedDB.getItemCount", "usuarios");
-        var linkGoogleSheet = await _jsRuntime.InvokeAsync<int>("indexedDB.getItemCount", "configs");
+        var totalRegistros = await _jsRuntime.InvokeAsync<int>("indexedDBHelper.getItemCount", "usuarios");
+        var linkGoogleSheet = await _jsRuntime.InvokeAsync<int>("indexedDBHelper.getItemCount", "configs");
 
         if (totalRegistros == 0)
         {
@@ -106,14 +106,14 @@ public class DatabaseService
             };
             foreach (var item in configuracoesPadrao)
             {
-                await _jsRuntime.InvokeVoidAsync("indexedDB.saveItem", "usuarios", item.Refeicao, item);
+                await _jsRuntime.InvokeVoidAsync("indexedDBHelper.saveItem", "usuarios", item.Refeicao, item);
             }
         }
 
         if (linkGoogleSheet == 0)
         {
             Configs configs = new Configs { IdIdentificao = "UNICO" };
-            await _jsRuntime.InvokeVoidAsync("indexedDB.saveItem", "configs", "UNICO", configs);
+            await _jsRuntime.InvokeVoidAsync("indexedDBHelper.saveItem", "configs", "UNICO", configs);
         }
         else
         {
@@ -124,7 +124,7 @@ public class DatabaseService
     // Baixar os dados do Google Sheets e inserir no IndexedDB
     public async Task<bool> BaixarDadosDoGoogleSheetEInserirNoBanco()
     {
-        var configuracaoGoogleSheet = await _jsRuntime.InvokeAsync<Configs>("indexedDB.getItem", "configs", "UNICO");
+        var configuracaoGoogleSheet = await _jsRuntime.InvokeAsync<Configs>("indexedDBHelper.getItem", "configs", "UNICO");
         try
         {
             var partes = configuracaoGoogleSheet.LinkGoogleSheet.Split('/');
@@ -162,18 +162,18 @@ public class DatabaseService
                     UltimaAtualizacaoServicoExterno = DateTime.Now
                 };
                 baseDeDadosParaAdicionarNoBanco.Add(baseDeDadosMedicos);
-                await _jsRuntime.InvokeVoidAsync("indexedDB.saveItem", "usuarios", refeicao, baseDeDadosMedicos);
+                await _jsRuntime.InvokeVoidAsync("indexedDBHelper.saveItem", "usuarios", refeicao, baseDeDadosMedicos);
                 contador++;
             }
 
-            var todosOsDados = await _jsRuntime.InvokeAsync<List<BaseDeDadosMedicos>>("indexedDB.getAllItems", "usuarios");
+            var todosOsDados = await _jsRuntime.InvokeAsync<List<BaseDeDadosMedicos>>("indexedDBHelper.getAllItems", "usuarios");
             var itensParaRemover = todosOsDados
                 .Where(a1 => !baseDeDadosParaAdicionarNoBanco.Any(a2 => a1.Refeicao == a2.Refeicao))
                 .ToList();
 
             foreach (var item in itensParaRemover)
             {
-                await _jsRuntime.InvokeVoidAsync("indexedDB.deleteItem", "usuarios", item.Refeicao);
+                await _jsRuntime.InvokeVoidAsync("indexedDBHelper.deleteItem", "usuarios", item.Refeicao);
             }
 
             return true;

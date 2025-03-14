@@ -6,5 +6,17 @@ wwwroot\icon-192.png
 wwwroot\icon-512.png
 wwwroot\index.html
 wwwroot\indexedDBHelper.js
+wwwroot\js\bootstrap.bundle.js
+wwwroot\js\bootstrap.bundle.js.map
+wwwroot\js\bootstrap.bundle.min.js
+wwwroot\js\bootstrap.bundle.min.js.map
+wwwroot\js\bootstrap.esm.js
+wwwroot\js\bootstrap.esm.js.map
+wwwroot\js\bootstrap.esm.min.js
+wwwroot\js\bootstrap.esm.min.js.map
+wwwroot\js\bootstrap.js
+wwwroot\js\bootstrap.js.map
+wwwroot\js\bootstrap.min.js
+wwwroot\js\bootstrap.min.js.map
 wwwroot\manifest.webmanifest
 wwwroot\sample-data\weather.json

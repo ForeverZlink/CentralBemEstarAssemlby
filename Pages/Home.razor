@@ -166,25 +166,68 @@
 
         async function mostrarBaseDados() {
         let container = document.getElementById('baseDadosContainer');
-        container.classList.toggle('hidden');
-        let tbody = document.getElementById('baseDados');
-        tbody.innerHTML = "";
+        container.classList.toggle('hidden');  // Alterna a visibilidade do container
 
+        let tbody = document.getElementById('baseDados');
+        tbody.innerHTML = "";  // Limpa o conteúdo da tabela
+
+        // Itera sobre o objeto baseDados
         for (let refeicao in baseDados) {
         let dados = baseDados[refeicao];
-        tbody.innerHTML += `
-        <tr>
-        <td>${refeicao}</td>
-        <td><input type="number" class="form-control" value="${dados.insulina}" onchange="atualizarBase('${refeicao}', 'insulina', this.value)"></td>
-        <td><input type="number" class="form-control"  value="${dados.cho}" onchange="atualizarBase('${refeicao}', 'cho', this.value)"></td>
-        <td><input type="number" class="form-control" value="${dados.meta}" onchange="atualizarBase('${refeicao}', 'meta', this.value)"></td>
-        <td><input type="number" class="form-control" value="${dados.fs}" onchange="atualizarBase('${refeicao}', 'fs', this.value)"></td>
-        </tr>`;
+
+        // Cria uma nova linha de tabela
+        let tr = document.createElement('tr');
+
+        // Cria as células da linha e insere os dados
+        let td1 = document.createElement('td');
+        td1.textContent = refeicao;
+        tr.appendChild(td1);
+
+        let td2 = document.createElement('td');
+        let inputInsulina = document.createElement('input');
+        inputInsulina.type = "number";
+        inputInsulina.className = "form-control";
+        inputInsulina.value = dados.insulina;
+        inputInsulina.onchange = () => atualizarBase(refeicao, 'insulina', inputInsulina.value);
+        td2.appendChild(inputInsulina);
+        tr.appendChild(td2);
+
+        let td3 = document.createElement('td');
+        let inputCho = document.createElement('input');
+        inputCho.type = "number";
+        inputCho.className = "form-control";
+        inputCho.value = dados.cho;
+        inputCho.onchange = () => atualizarBase(refeicao, 'cho', inputCho.value);
+        td3.appendChild(inputCho);
+        tr.appendChild(td3);
+
+        let td4 = document.createElement('td');
+        let inputMeta = document.createElement('input');
+        inputMeta.type = "number";
+        inputMeta.className = "form-control";
+        inputMeta.value = dados.meta;
+        inputMeta.onchange = () => atualizarBase(refeicao, 'meta', inputMeta.value);
+        td4.appendChild(inputMeta);
+        tr.appendChild(td4);
+
+        let td5 = document.createElement('td');
+        let inputFs = document.createElement('input');
+        inputFs.type = "number";
+        inputFs.className = "form-control";
+        inputFs.value = dados.fs;
+        inputFs.onchange = () => atualizarBase(refeicao, 'fs', inputFs.value);
+        td5.appendChild(inputFs);
+        tr.appendChild(td5);
+
+        // Adiciona a linha criada ao tbody
+        tbody.appendChild(tr);
         }
 
+        // Atualiza a última modificação
         document.getElementById("ultimaModificacao").innerText = ultimaAtualizacaoBaseDeDados;
-
         }
+
+
 
         function atualizarBase(refeicao, campo, valor) {
         baseDados[refeicao][campo] = parseFloat(valor);
@@ -203,17 +246,17 @@
         return JSON.stringify(baseDados)
         }
         async function GetBaseDeDadosBancoMock(json,ultimaAtualizacao) {
-            console.log(json)
-            baseDados ={}
-            baseDados = JSON.parse(json)
-            ultimaAtualizacaoBaseDeDados = ultimaAtualizacao
+        console.log(json)
+        baseDados ={}
+        baseDados = JSON.parse(json)
+        ultimaAtualizacaoBaseDeDados = ultimaAtualizacao
 
         }
         async function GetAtualizacaoDeDadosGoogleSheetAviso() {
 
-            alert("Sincronizado com sucesso!")
+        alert("Sincronizado com sucesso!")
 
-            location.reload();
+        location.reload();
 
         }
 
@@ -223,11 +266,10 @@
 </body>
 </html>
 @code {
-     public async Task<String> GetBaseDeDadosBanco()
+    public async Task<String> GetBaseDeDadosBanco()
     {
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
         await _databaseService.InitializeAsync(JSRuntime);
-        await _databaseService.InicializarBancoDeDados();
         var baseDeDados = await _databaseService.ListarBaseDeDadosAsync();
         var ultimaAtualizacaoBase = await _databaseService.GetUltimaAtualizacaoDoGoogleSheet();
 
@@ -261,7 +303,8 @@
         DatabaseService _databaseService = new DatabaseService(JSRuntime);
         await _databaseService.InitializeAsync(JSRuntime);
         await _databaseService.InicializarBancoDeDados();
-
+        await _databaseService.InserirDadosIniciais();
+        await GetBaseDeDadosBanco();
     }
 
    
