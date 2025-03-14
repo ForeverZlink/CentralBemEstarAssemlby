@@ -1,7 +1,7 @@
 {
   "entryAssembly": "CentralBemEstarAssemblyIOS",
   "resources": {
-    "hash": "sha256-tWRwYpX4Zsth1ULr/TK5v0i2rV50ETpiYGmz38IY90U=",
+    "hash": "sha256-vpwKbTWx6sxAcVNHxFvYIFscce7PHCW83cG7tYXdC0M=",
     "runtime": {
       "dotnet.js": "sha256-eaJTmow4t8eE7FZMZR5Ja41JMOefGCbIYDTdpclGsac=",
       "dotnet.timezones.blat": "sha256-gbATD5HDsHYtW8vdPYh9iSBY4O5CjvMeCSF5xXWF1xo=",
@@ -203,10 +203,10 @@
       "mscorlib.dll": "sha256-HYyp9hO+GKFyupcEiY1PxtBBXbHzefsO3Q8RiQTaNCA=",
       "netstandard.dll": "sha256-N5CcC3sLzGBesbmeJAp5bwxABN9u7SwkIO5qfFjzoik=",
       "System.Private.CoreLib.dll": "sha256-bJS1DJmhjP7PvegYG+Z8O9EDtRY78HKinA3LUMVLlSQ=",
-      "CentralBemEstarAssemblyIOS.dll": "sha256-VNXnwSG9Cp7QWs8bcZrquv7MNFvqt5HlLBtRW/TvfSA="
+      "CentralBemEstarAssemblyIOS.dll": "sha256-ey3IA15CaygYWaqk44jOWgFR16KdIEfhwEndT6XdCjE="
     },
     "pdb": {
-      "CentralBemEstarAssemblyIOS.pdb": "sha256-NLHidijrrpBkpYkd3jNGyVo/jhHJeswznKTq5yF6e/g="
+      "CentralBemEstarAssemblyIOS.pdb": "sha256-1ph2hB1YkTnV+t4HM8tP08Van8sCDetqRZjoG2e1bjI="
     },
     "runtimeAssets": {
       "dotnet.wasm": {

@@ -237,7 +237,7 @@
         async function salvarBaseDadosAvisoDeSucesso() {
             //localStorage.setItem('baseDados', JSON.stringify(baseDados));
             alert("Base de dados salva com sucesso!");
-            location.reload();
+            
         }
 
 
@@ -250,7 +250,7 @@
             baseDados ={}
             baseDados = JSON.parse(json)
             ultimaAtualizacaoBaseDeDados = ultimaAtualizacao
-
+            location.reload();
         }
         async function GetAtualizacaoDeDadosGoogleSheetAviso() {
 

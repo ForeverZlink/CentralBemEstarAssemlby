@@ -88,13 +88,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"e2861q4cgg"},{"Name":"integrity","Value":"sha256-qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI="},{"Name":"label","Value":"index.html"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1394"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI=\u0022"},{"Name":"Last-Modified","Value":"Thu, 13 Mar 2025 23:26:30 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1394"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI=\u0022"},{"Name":"Last-Modified","Value":"Fri, 14 Mar 2025 00:23:07 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="index.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1394"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI=\u0022"},{"Name":"Last-Modified","Value":"Thu, 13 Mar 2025 23:26:30 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1394"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022qgjmSsbPkdyvYHf2oCBAv7LeScQHfWpS5xApfxkgtfI=\u0022"},{"Name":"Last-Modified","Value":"Fri, 14 Mar 2025 00:23:07 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="indexedDBHelper.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\indexedDBHelper.js'))</AssetFile>

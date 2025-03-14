@@ -1,16 +1,16 @@
 self.assetsManifest = {
-  "version": "8gidEfg9",
+  "version": "ZIIykvdF",
   "assets": [
     {
       "hash": "sha256-H1j64WoyXDdJPtfDbWzw04ST7eRzTFYha8vLUW+LqlU=",
       "url": "CentralBemEstarAssemblyIOS.styles.css"
     },
     {
-      "hash": "sha256-VNXnwSG9Cp7QWs8bcZrquv7MNFvqt5HlLBtRW/TvfSA=",
+      "hash": "sha256-ey3IA15CaygYWaqk44jOWgFR16KdIEfhwEndT6XdCjE=",
       "url": "_framework/CentralBemEstarAssemblyIOS.dll"
     },
     {
-      "hash": "sha256-NLHidijrrpBkpYkd3jNGyVo/jhHJeswznKTq5yF6e/g=",
+      "hash": "sha256-1ph2hB1YkTnV+t4HM8tP08Van8sCDetqRZjoG2e1bjI=",
       "url": "_framework/CentralBemEstarAssemblyIOS.pdb"
     },
     {
@@ -770,7 +770,7 @@ self.assetsManifest = {
       "url": "_framework/WindowsBase.dll"
     },
     {
-      "hash": "sha256-rtn/zZdL8FK0SFDnKH5MbasydchW/W1zsFDgSOD5T40=",
+      "hash": "sha256-kzR4H4gfVtg3gUByMsMUWQmhjVC7EmjNo1ZtL8zGpVI=",
       "url": "_framework/blazor.boot.json"
     },
     {
