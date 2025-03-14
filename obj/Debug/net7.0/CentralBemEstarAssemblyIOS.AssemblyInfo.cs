@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CentralBemEstarAssemblyIOS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed8240ae3caa1d09e058208879da7bf66d873b58")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68e4896c876b0dfc35b1384ce5e9847b7cbfe04d")]
 [assembly: System.Reflection.AssemblyProductAttribute("CentralBemEstarAssemblyIOS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CentralBemEstarAssemblyIOS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
